@@ -1,9 +1,9 @@
 # Una
+
+__Una :: Free Platform to Help Team Project for Student__
 -
 [![Build Status](https://travis-ci.org/enoxaiming/Una.svg?branch=master)](https://travis-ci.org/enoxaiming/Una)
 <img src="https://img.shields.io/badge/license-Apache-blue.svg" alt="License Apache">
-
-__Una :: Free Platform to Help Team Project for Student__
 
 
 Una는 함께를 뜻하는 라틴어로, 팀프로젝트 자원관리 플랫폼입니다. 교내 창의 IT 경진대회를 통해 1차적으로 한국디지털미디어고등학교 학생들을 위해 서비스 될 예정입니다. 
