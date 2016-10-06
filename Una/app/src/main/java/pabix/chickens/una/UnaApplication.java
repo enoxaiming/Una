@@ -17,7 +17,7 @@ public class UnaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         context = this;
     }
@@ -25,4 +25,5 @@ public class UnaApplication extends Application {
     public static Context getContext() {
         return context;
     }
+
 }
