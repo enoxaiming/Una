@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -23,5 +24,15 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@color/cardview_shadow_start_color"
+        android:layout_below="@+id/fb_login_button"
+        android:layout_alignEnd="@+id/fb_login_button"
+        android:layout_marginEnd="22dp"
+        android:layout_marginTop="124dp"
+        android:id="@+id/imageView" />
 
 </RelativeLayout>
