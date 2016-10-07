@@ -1,6 +1,9 @@
 package pabix.chickens.una;
 
+import android.support.v7.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,15 +20,21 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.Management.UserManager;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
+    private String URL;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private UserManager userManager;
     @BindView(R.id.fb_login_button) LoginButton loginButton;
     @BindView(R.id.imageView) ImageView imageView;
 
@@ -34,10 +43,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        pref = PreferenceManager.getDefaultSharedPreferences(UnaApplication.getContext());
+        editor = pref.edit();
+
         callbackManager = CallbackManager.Factory.create(); // callbackManager 선언
         ButterKnife.bind(this);
 
         loginButton.setReadPermissions("public_profile");
+
+        userManager = UserManager.getInstance();
         
         //Facebook Login 버튼을 눌렀을 때
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(final LoginResult result) {
 
-                        GraphRequest request;
+                        final GraphRequest request;
 
                         request = GraphRequest.newMeRequest(result.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
 
@@ -60,16 +77,23 @@ public class MainActivity extends AppCompatActivity {
                                     Log.i("TAG", "user: " + user.toString());
                                     Log.i("TAG", "AccessToken: " + result.getAccessToken().getToken());
                                     Log.i("ID", "ID : " + result.getAccessToken().getUserId());
+                                    try {
+                                        userManager.setUserName(user.getString("name"));
+                                        userManager.setUserID(result.getAccessToken().getUserId());
+                                        userManager.setToken(result.getAccessToken().getToken());
+                                    } catch (JSONException e) {
+
+                                    }
                                     setResult(RESULT_OK);
                                 }
                             }
                         });
                         Bundle parameters = new Bundle();
                         parameters.putString("fields", "id,name,email,gender,birthday");
+                        URL = "https://graph.facebook.com/" + result.getAccessToken().getUserId() + "/picture?type=large";
                         request.setParameters(parameters);
                         request.executeAsync();
-                        Log.i("URL","https://graph.facebook.com/" + result.getAccessToken().getUserId() + "/picture?type=large");
-                        Glide.with(UnaApplication.getContext()).load("https://graph.facebook.com/" + result.getAccessToken().getUserId() + "/picture?type=large").into(imageView);
+                        Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(imageView); //MemoryCache Function OFF
                     }
 
                     @Override
