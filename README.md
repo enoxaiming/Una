@@ -35,11 +35,25 @@ Una는 함께를 뜻하는 라틴어로, 팀프로젝트 자원관리 플랫폼�
 - [ ] 프로젝트 리스트 관리
 
 ###Android
-- [ ] Facebook API 구현 (디미고인 API는 추후에 생각)
+- [x] Facebook API 구현 (_디미고인 API는 추후에 생각_)
 - [ ] 안드로이드 레이아웃 구현
 - [ ] 웹 백엔드 연동
 - [ ] 애니메이션 구현
 - [ ] 기타 백엔드 처리
+
+##Pages
+- Splash Page
+- Login Page -> Get User Info Page
+- Main Page
+- Setting Page
+- Project List Page -> Project Apply Page
+- Project Add Page
+- Project Management Page
+- Project Enroll Page
+- MyPage : 
+- The Hall of Fame
+- Competition Info Page
+- Announcement Page
 
 ##Contact
 Email : <enoxaiming@naver.com>
