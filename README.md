@@ -6,7 +6,7 @@ __Una :: Free Platform to Help Team Project for Student__
 <img src="https://img.shields.io/badge/license-Apache-blue.svg" alt="License Apache">
 
 
-Una는 함께를 뜻하는 라틴어로, 팀프로젝트 자원관리 플랫폼입니다. 교내 창의 IT 경진대회를 통해 1차적으로 한국디지털미디어고등학교 학생들을 위해 서비스 될 예정입니다. 
+Una는 함께를 뜻하는 라틴어로, 팀프로젝트를 위한 인적 네트워크 관리 플랫폼입니다. </br> 교내 창의 IT 경진대회를 통해 1차적으로 한국디지털미디어고등학교 학생들을 위해 서비스 될 예정입니다. 
 
 ##Features
 - Facebook을 통한 회원 관리
@@ -37,25 +37,49 @@ Una는 함께를 뜻하는 라틴어로, 팀프로젝트 자원관리 플랫폼�
 ###Android
 - [x] Facebook API 구현 (_디미고인 API는 추후에 생각_)
 - [ ] 안드로이드 레이아웃 구현
+  - [x] Splash Page
+  - [ ] LoginPage
+  - [ ] Setting Page
+  - [ ] Project List Page
+  - [ ] Project Enroll Page
+  - [ ] Project Management Page
+  - [ ] Project Apply Page
+  - [ ] MyPage
+  - [ ] The Hall Of Fame
+  - [ ] Competition Info Page
+  - [ ] Announcement Page
 - [ ] 웹 백엔드 연동
+	- [ ] Announcement
+	- [ ] User Management
+	- [ ] Project Infos
+	- [ ] Competition Info
 - [ ] 애니메이션 구현
 - [ ] 기타 백엔드 처리
+
 
 ##Pages
 - Splash Page
 - Login Page -> Get User Info Page
-- Main Page
-- Setting Page
+- Main Page -> 메인페이지
+- Setting Page -> 설정페이지 : 로그아웃 알림 등등
 - Project List Page -> Project Apply Page
-- Project Add Page
-- Project Management Page
-- Project Enroll Page
-- MyPage : 
-- The Hall of Fame
-- Competition Info Page
-- Announcement Page
+- Project Enroll Page -> 프로젝트 등록하기 : 담당자 연락 관리
+- Project Management Page -> 등록한 프로젝트 관리 (신청한 사람, 프로젝트 정보 추가 및 관리)
+- Project Apply Page -> 맘에 드는 프로젝트 신청하기
+- MyPage : Profile, 프로젝트 참여 내역 (신청,참여,완료), 자기소개 etc
+- The Hall of Fame -> 명예의 전당 : 프로젝트 우수 성공 사례 등
+- Competition Info Page -> 대회 정보 페이지
+- Announcement Page -> 공지사항
+
+##API
+- Retrofit2
+- ButterKnife
+- Glide
+- Facebook Login API
 
 ##Contact
+한국디지털미디어고등학교 14기 해킹방어과 하준혁
+
 Email : <enoxaiming@naver.com>
 
 Facebook : <http://www.facebook.com/hajh003>
