@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -52,9 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create(); // callbackManager 선언
         ButterKnife.bind(this);
 
-        loginButton.setReadPermissions("public_profile");
+        Log.e("Token",AccessToken.getCurrentAccessToken().toString());
 
-        userManager = UserManager.getInstance();
+        loginButton.setReadPermissions("public_profile"); //Facebook API Permission
+
+        userManager = UserManager.getInstance(); //For User Management
         
         //Facebook Login 버튼을 눌렀을 때
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -118,5 +121,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+    //Login Check
+    public boolean isLoggedIn() {
+        return AccessToken.getCurrentAccessToken() != null;
+    }
+
 
 }
