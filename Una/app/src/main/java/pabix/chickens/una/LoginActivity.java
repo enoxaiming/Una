@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private UserManager userManager;
     @BindView(R.id.fb_login_button) LoginButton loginButton;
+    @BindView(R.id.Textview) TextView textView;
     @BindView(R.id.imageView) ImageView imageView;
 
     @Override
@@ -49,11 +51,13 @@ public class LoginActivity extends AppCompatActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(UnaApplication.getContext());
         editor = pref.edit();
+        editor.putBoolean("Login",false).commit();
+
 
         callbackManager = CallbackManager.Factory.create(); // callbackManager 선언
         ButterKnife.bind(this);
 
-        Log.e("Token",AccessToken.getCurrentAccessToken().toString());
+
 
         loginButton.setReadPermissions("public_profile"); //Facebook API Permission
 
@@ -80,10 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.i("TAG", "user: " + user.toString());
                                     Log.i("TAG", "AccessToken: " + result.getAccessToken().getToken());
                                     Log.i("ID", "ID : " + result.getAccessToken().getUserId());
+                                    editor.putBoolean("Login",true).commit();
                                     try {
                                         userManager.setUserName(user.getString("name"));
                                         userManager.setUserID(result.getAccessToken().getUserId());
                                         userManager.setToken(result.getAccessToken().getToken());
+                                        textView.setText(user.getString("name"));
                                     } catch (JSONException e) {
 
                                     }
@@ -93,10 +99,11 @@ public class LoginActivity extends AppCompatActivity {
                         });
                         Bundle parameters = new Bundle();
                         parameters.putString("fields", "id,name,email,gender,birthday");
-                        URL = "https://graph.facebook.com/" + result.getAccessToken().getUserId() + "/picture?type=large";
                         request.setParameters(parameters);
                         request.executeAsync();
-                        Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(imageView); //MemoryCache Function OFF
+                        AccessToken.setCurrentAccessToken(result.getAccessToken());
+                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        finish();
                     }
 
                     @Override
