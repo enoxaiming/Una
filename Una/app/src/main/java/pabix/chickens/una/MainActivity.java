@@ -2,7 +2,6 @@ package pabix.chickens.una;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -11,7 +10,6 @@ import com.facebook.AccessToken;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pabix.chickens.una.Management.UnaApplication;
-import pabix.chickens.una.Management.UserManager;
 
 public class MainActivity extends AppCompatActivity {
     private String URL;

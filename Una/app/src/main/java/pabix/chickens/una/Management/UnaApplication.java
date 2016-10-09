@@ -2,10 +2,8 @@ package pabix.chickens.una.Management;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import com.facebook.FacebookSdk;
-import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
 
 /**
@@ -23,12 +21,12 @@ public class UnaApplication extends Application {
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         context = this;
+
     }
 
     public static Context getContext() {
         return context;
     }
-
 
 
 }
