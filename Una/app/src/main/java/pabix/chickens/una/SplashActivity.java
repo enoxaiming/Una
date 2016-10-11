@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.AccessToken;
+import com.facebook.Profile;
 
 public class SplashActivity extends AppCompatActivity {
 

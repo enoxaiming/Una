@@ -1,14 +1,17 @@
 package pabix.chickens.una.Management;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by JunHyeok on 2016. 10. 10..
  */
 
-public class UserVO extends RealmObject{
+public class UserVO extends RealmObject {
 
     @PrimaryKey
     private String name;
-    private int age;
+    private String token;
 
     public String getName() {
         return name;
@@ -18,14 +21,11 @@ public class UserVO extends RealmObject{
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public String getToken() {
+        return token;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setToken(String token) {
+        this.token = token;
     }
 }
-    Colored by Color Scripter
-cs
-
