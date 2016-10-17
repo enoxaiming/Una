@@ -13,4 +13,19 @@
     tools:context="pabix.chickens.una.NavigationDrawerActivity"
     tools:showIn="@layout/app_bar_navigation_drawer">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
 </RelativeLayout>

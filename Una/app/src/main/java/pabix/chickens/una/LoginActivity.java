@@ -25,9 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import pabix.chickens.una.Management.UserVO;
+import pabix.chickens.una.Database.UserVO;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -89,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 request.setParameters(parameters);
                 request.executeAsync();
                 AccessToken.setCurrentAccessToken(result.getAccessToken());
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
                 finish();
             }
 

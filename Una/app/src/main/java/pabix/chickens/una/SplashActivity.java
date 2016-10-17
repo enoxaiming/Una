@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.AccessToken;
-import com.facebook.Profile;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
                 //로그인 상태 확인 후 액티비티 이동
                 //Login이 true 일때,
                 if(isLoggedIn()) {
-                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this,NavigationDrawerActivity.class));
                     finish();
                 }
                 //Login이 false 일때
