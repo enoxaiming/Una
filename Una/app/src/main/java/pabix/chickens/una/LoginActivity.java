@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import pabix.chickens.una.Database.UserVO;
+import pabix.chickens.una.Management.UnaApplication;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create(); // callbackManager 선언
         ButterKnife.bind(this);
+
+        mRealm.init(UnaApplication.getContext());
 
         mRealm.getDefaultInstance();
 
