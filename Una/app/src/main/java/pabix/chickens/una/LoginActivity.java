@@ -55,8 +55,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mRealm.init(UnaApplication.getContext());
 
-        mRealm.getDefaultInstance();
-
         loginButton.setReadPermissions("public_profile"); //Facebook API Permission
 
         //Facebook Login 버튼을 눌렀을 때
