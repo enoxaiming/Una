@@ -1,9 +1,15 @@
 package pabix.chickens.una;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,33 +25,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
+import pabix.chickens.una.Fragments.CompetitionListFragment;
+import pabix.chickens.una.Fragments.MyPageFragment;
+import pabix.chickens.una.Fragments.ProjectLikedFragment;
+import pabix.chickens.una.Fragments.ProjectListFragment;
 import pabix.chickens.una.Management.UnaApplication;
 
 public class NavigationDrawerActivity extends AppCompatActivity
-        implements ProjectRecyclerAdapter.OnLoadMoreListener,NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
-    private List<Item> mList;
-    private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ProjectRecyclerAdapter mAdapter;
     private SearchView mSearchView;
     private Activity activity;
     private long backKeyPressedTime = 0;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
         Realm.init(UnaApplication.getContext());
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         toolbar.inflateMenu(R.menu.search);
         setSupportActionBar(toolbar);
+
 
         mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_search).getActionView();
 
@@ -63,7 +73,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
 
         activity = this;
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,28 +82,56 @@ public class NavigationDrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.nav_recyclerview);
-        mList = new ArrayList();
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.nav_swiperefresh);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProjectRecyclerAdapter(this);
-        mAdapter.setLinearLayoutManager(mLayoutManager);
-        mAdapter.setRecyclerView(mRecyclerView);
-        mRecyclerView.setAdapter(mAdapter);
+        int[] icons = {R.drawable.main_home,
+                R.drawable.main_like,
+                R.drawable.main_comp,
+                R.drawable.main_mypage
+        };
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.main_tab_content);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshItems();
-            }
-        });
-        /*mListView.setAdapter(new ArrayAdapter<String>(){
-            String[] fakeTweets = getResources().getStringArray(R.array.cat_names);
-            Adapter mAdapter = new ArrayAdapter<String>(this);
-            mListview.setAdapter(mAdapter);
-        });*/
+        setupViewPager(viewPager);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < icons.length; i++) {
+            tabLayout.getTabAt(i).setIcon(icons[i]);
+        }
+        tabLayout.getTabAt(0).select();
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.insertNewFragment(new ProjectListFragment());
+        adapter.insertNewFragment(new ProjectLikedFragment());
+        adapter.insertNewFragment(new CompetitionListFragment());
+        adapter.insertNewFragment(new MyPageFragment());
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            //Add some code
+            //to verify that it will not return null
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void insertNewFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -136,34 +173,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    //아이템 새로고침
-    private void refreshItems() {
-        mList.clear();
-        for (int i = 1; i <= 20; i++) {
-            mList.add(new Item("Item " + i));
-        }
-        mAdapter.addAll(mList);
-        mSwipeRefreshLayout.setRefreshing(false); // 새로고침 후 다시 리프레시 버튼 올라가기
-    }
-
-    public void onLoadMore() {
-        mAdapter.setProgressMore(true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mList.clear();
-                mAdapter.setProgressMore(false);
-                int start = mAdapter.getItemCount();
-                int end = start + 15;
-                for (int i = start + 1; i <= end; i++) {
-                    mList.add(new Item("Item " + i));
-                }
-                mAdapter.addItemMore(mList);
-                mAdapter.setMoreLoading(false);
-            }
-        },2000);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -187,5 +196,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
