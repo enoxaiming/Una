@@ -4,6 +4,7 @@ package pabix.chickens.una;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private LinearLayoutManager mLinearLayoutManager;
 
     private boolean isMoreLoading = false;
-    private int visibleThreshold = 1;
+    private int visibleThreshold = 15;
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
     public interface OnLoadMoreListener{
@@ -45,26 +46,30 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.mLinearLayoutManager=linearLayoutManager;
     }
 
-    public void setRecyclerView(RecyclerView mView){
+    public void setRecyclerView(final RecyclerView mView){
         mView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = mLinearLayoutManager.getItemCount();
+                firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
+                    if (onLoadMoreListener != null) {
+                        mView.onScrollStateChanged(RecyclerView.SCROLL_STATE_IDLE);
+                        onLoadMoreListener.onLoadMore();
+                    }
+                    isMoreLoading = true;
+                }
+
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    visibleItemCount = recyclerView.getChildCount();
-                    totalItemCount = mLinearLayoutManager.getItemCount();
-                    firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-                    if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            onLoadMoreListener.onLoadMore();
-                        }
-                        isMoreLoading = true;
-                    }
                 }
             }
         });
@@ -82,7 +87,6 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
         }
-
     }
 
     public void addAll(List<Item> lst){
