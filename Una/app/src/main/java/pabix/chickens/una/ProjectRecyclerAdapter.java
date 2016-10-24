@@ -50,14 +50,21 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                visibleItemCount = recyclerView.getChildCount();
-                totalItemCount = mLinearLayoutManager.getItemCount();
-                firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-                if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    visibleItemCount = recyclerView.getChildCount();
+                    totalItemCount = mLinearLayoutManager.getItemCount();
+                    firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+                    if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
+                        if (onLoadMoreListener != null) {
+                            onLoadMoreListener.onLoadMore();
+                        }
+                        isMoreLoading = true;
                     }
-                    isMoreLoading = true;
                 }
             }
         });
@@ -126,7 +133,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public StudentViewHolder(View v) {
             super(v);
-            tvItem = (TextView) v.findViewById(R.id.tvItem);
+            tvItem = (TextView) v.findViewById(R.id.tvitem);
         }
     }
 

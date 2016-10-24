@@ -4,19 +4,15 @@ import android.app.Activity;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.View;
+import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,16 +21,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import io.realm.Realm;
+
 import pabix.chickens.una.Fragments.CompetitionListFragment;
 import pabix.chickens.una.Fragments.MyPageFragment;
 import pabix.chickens.una.Fragments.ProjectLikedFragment;
@@ -45,9 +43,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
     private SearchView mSearchView;
+    private FrameLayout.LayoutParams iconframe;
+    private ImageView imageView;
     private Activity activity;
     private long backKeyPressedTime = 0;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    private MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Realm.init(UnaApplication.getContext());
         ButterKnife.bind(this);
+
         toolbar.inflateMenu(R.menu.search);
         setSupportActionBar(toolbar);
-
 
         mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_search).getActionView();
 
@@ -99,7 +100,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
+
+
         tabLayout.getTabAt(0).select();
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -110,12 +114,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                int tabBarIcon = ContextCompat.getColor(UnaApplication.getContext(),R.color.tabDark);
+                tab.getIcon().setColorFilter(tabBarIcon, PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
@@ -156,9 +160,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Log.e("icon",String.valueOf(mSearchView.isIconified()));
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if(!mSearchView.isIconified()) {
+                searchItem.collapseActionView();
+            }
             if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
                 backKeyPressedTime = System.currentTimeMillis();
                 Toast.makeText(activity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
@@ -175,6 +183,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search, menu);
+        searchItem = menu.findItem(R.id.menu_search);
+        searchItem.expandActionView();
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
         return true;
     }
 
@@ -222,4 +243,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }
