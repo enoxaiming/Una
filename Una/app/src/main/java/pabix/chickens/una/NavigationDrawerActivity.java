@@ -1,6 +1,7 @@
 package pabix.chickens.una;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -87,7 +89,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 R.drawable.main_comp,
                 R.drawable.main_mypage
         };
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.main_tab_content);
 
         setupViewPager(viewPager);
@@ -98,6 +100,24 @@ public class NavigationDrawerActivity extends AppCompatActivity
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
         tabLayout.getTabAt(0).select();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabBarIcon = ContextCompat.getColor(UnaApplication.getContext(),R.color.colorAccent);
+                tab.getIcon().setColorFilter(tabBarIcon, PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
