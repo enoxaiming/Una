@@ -87,7 +87,8 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
             }
         });
         mRecyclerView = (RecyclerView) view.findViewById(R.id.nav_recyclerview);
-        mList = new ArrayList();
+        mRecyclerView.setHasFixedSize(true);
+        mList = new ArrayList<Item>();
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.nav_swiperefresh);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(UnaApplication.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -95,6 +96,7 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
         mAdapter.setLinearLayoutManager(mLayoutManager);
         mAdapter.setRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
+        baseItem();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -171,4 +173,13 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
             }
         },2000);
     }
+
+    public void baseItem() {
+        for(int i = 1; i <= 20; i++) {
+            mList.add(new Item("Item" + i));
+        }
+        mAdapter.addAll(mList);
+    }
+
+
 }
