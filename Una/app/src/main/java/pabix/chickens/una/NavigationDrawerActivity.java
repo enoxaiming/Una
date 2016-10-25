@@ -1,7 +1,11 @@
 package pabix.chickens.una;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -43,6 +47,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
     private SearchView mSearchView;
+    private String[] title = {"Hi","bi","kk","zk"};
     private FrameLayout.LayoutParams iconframe;
     private ImageView imageView;
     private Activity activity;
@@ -90,6 +95,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 R.drawable.main_comp,
                 R.drawable.main_mypage
         };
+
+
+
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.main_tab_content);
 
@@ -108,6 +116,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                toolbar.setTitle(title[tabLayout.getSelectedTabPosition()]);
                 int tabBarIcon = ContextCompat.getColor(UnaApplication.getContext(),R.color.colorAccent);
                 tab.getIcon().setColorFilter(tabBarIcon, PorterDuff.Mode.SRC_IN);
             }
