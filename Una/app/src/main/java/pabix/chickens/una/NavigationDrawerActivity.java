@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -90,11 +91,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        int[] icons = {R.drawable.main_home,
-                R.drawable.main_like,
-                R.drawable.main_comp,
-                R.drawable.main_mypage
+        int[] icons = {R.drawable.ic_tab_main,
+                R.drawable.ic_tab_like,
+                R.drawable.ic_tab_info,
+                R.drawable.ic_tab_user
         };
+
+        String[] titles = {"홈","내 프로젝트","대회정보","마이페이지"};
 
 
 
@@ -107,7 +110,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
+            tabLayout.getTabAt(i).setText(titles[i]);
         }
+
+        /*for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            ImageView imageView = new ImageView(UnaApplication.getContext());
+            imageView.setImageResource(icons[i]);
+            tabLayout.getTabAt(i).setCustomView(imageView);
+        }*/
+
+        /*for(int i = 0 ; i < tabLayout.getChildCount(); ) {
+            tabLayout.getChildAt(i).setPadding(10,10,10,10);
+        }*/
 
 
         tabLayout.getTabAt(0).select();
