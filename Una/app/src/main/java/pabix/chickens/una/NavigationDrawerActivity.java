@@ -1,6 +1,7 @@
 package pabix.chickens.una;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -27,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -49,8 +49,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private SearchView mSearchView;
     private String[] title = {"Hi","bi","kk","zk"};
-    private FrameLayout.LayoutParams iconframe;
-    private ImageView imageView;
     private Activity activity;
     private long backKeyPressedTime = 0;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -246,6 +244,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+
+            startActivity(new Intent(NavigationDrawerActivity.this,SearchViewActivity.class));
 
         } else if (id == R.id.nav_slideshow) {
 

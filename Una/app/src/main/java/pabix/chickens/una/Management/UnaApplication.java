@@ -12,6 +12,8 @@ import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONObject;
 
+import io.realm.Realm;
+
 /**
  * Created by JunHyeok on 2016. 10. 6..
  */
