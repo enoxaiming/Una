@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -26,8 +29,16 @@ import butterknife.ButterKnife;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import pabix.chickens.una.Database.ProjectVO;
 import pabix.chickens.una.Database.UserVO;
+import pabix.chickens.una.HTTPConnection.AddProject;
+import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.Management.UnaApplication;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView textView;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.hi)
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSignUp();
+            }
+        });
     }
 
 
@@ -133,6 +154,31 @@ public class LoginActivity extends AppCompatActivity {
         RealmResults<UserVO> userList = mRealm.where(UserVO.class).findAll();
         userList.deleteAllFromRealm();
         mRealm.commitTransaction();
+    }
+
+    private void doSignUp() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://54.214.215.13:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AddProject doSignup = retrofit.create(AddProject.class);
+
+        Call<Repo> call = doSignup.doSignup(
+                "321321","fdsaf","31231","dasf","2016-08-01","2016-09-11",true,3,"fdaf;fdas;");
+
+        call.enqueue(new Callback<Repo>() {
+            @Override
+            public void onResponse(Call<Repo> call, Response<Repo> response) {
+                Log.e("Log",response.message());
+                Log.e("Log",response.raw().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Repo> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 

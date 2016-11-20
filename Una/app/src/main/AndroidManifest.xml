@@ -16,7 +16,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -36,7 +42,9 @@
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SearchView" />
-        <activity android:name=".SearchViewActivity"></activity>
+        <activity android:name=".SearchViewActivity" android:theme="@style/CustomTheme">
+
+        </activity>
     </application>
 
 </manifest>

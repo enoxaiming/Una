@@ -2,11 +2,7 @@ package pabix.chickens.una;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -26,8 +22,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,6 +42,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
     private SearchView mSearchView;
+    private boolean searchViewOn = true;
     private String[] title = {"Hi","bi","kk","zk"};
     private Activity activity;
     private long backKeyPressedTime = 0;
@@ -69,6 +64,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 return false;
             }
 
@@ -95,7 +91,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 R.drawable.ic_tab_user
         };
 
-        String[] titles = {"홈","내 프로젝트","대회정보","마이페이지"};
+        //String[] titles = {"홈","내 프로젝트","대회정보","마이페이지"};
 
 
 
@@ -108,7 +104,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
-            tabLayout.getTabAt(i).setText(titles[i]);
+            //tabLayout.getTabAt(i).setText(titles[i]);
         }
 
         /*for (int i = 0; i < tabLayout.getTabCount(); i++) {
@@ -128,6 +124,25 @@ public class NavigationDrawerActivity extends AppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(!searchViewOn) {
+                    mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_search).getActionView();
+
+                    mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            return false;
+                        }
+                    });
+                    searchViewOn = true;
+                }
+                else {
+                    searchViewOn = false;
+                }
                 toolbar.setTitle(title[tabLayout.getSelectedTabPosition()]);
                 int tabBarIcon = ContextCompat.getColor(UnaApplication.getContext(),R.color.colorAccent);
                 tab.getIcon().setColorFilter(tabBarIcon, PorterDuff.Mode.SRC_IN);
@@ -244,9 +259,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
             startActivity(new Intent(NavigationDrawerActivity.this,SearchViewActivity.class));
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -266,6 +279,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 
 
 }

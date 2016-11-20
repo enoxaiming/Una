@@ -37,6 +37,7 @@ dependencies {
     //Retrofit2
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 
     //Facebook API
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
@@ -55,6 +56,9 @@ dependencies {
 
     //SearchView
     compile 'com.github.thorbenprimke:realm-searchview:0.9.6'
+
+    //CircleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 
     testCompile 'junit:junit:4.12'
 }

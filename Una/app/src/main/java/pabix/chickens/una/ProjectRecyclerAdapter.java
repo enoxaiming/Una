@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import pabix.chickens.una.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by JunHyeok on 2016. 10. 17..
@@ -148,4 +151,5 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             pBar = (ProgressBar) v.findViewById(R.id.pBar);
         }
     }
+
 }
