@@ -175,6 +175,7 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
         },2000);
     }
 
+    //TODO setItems about Projects
     public void baseItem() {
         for(int i = 1; i <= 20; i++) {
             mList.add(new Item("Item" + i));

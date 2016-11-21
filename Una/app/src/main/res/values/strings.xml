@@ -22,10 +22,9 @@
 
     <string name="search">검색</string>
     <!--ProjectList Strings-->
-    <string name="save">보관하기</string>
+    <string name="store">보관하기</string>
     <string name="contact">연락하기</string>
     <string name="submit">신청하기</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

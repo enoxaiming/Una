@@ -26,7 +26,7 @@
                 android:id="@+id/usrPhoto"
                 android:background="@drawable/ellipse"/>
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoBoldTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/usrname"
@@ -35,7 +35,7 @@
                 android:layout_marginStart="9dp"
                 android:text="HaJunHyeok" />
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoBoldTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/proname"
@@ -48,7 +48,7 @@
                 android:textSize="18sp"
                 android:textStyle="normal|bold" />
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/participant"
@@ -57,22 +57,23 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="6dp"
+                android:textColor="#6AA1C9"
                 android:text="6"
                 android:fontFamily="sans-serif"
                 android:textSize="18sp"
                 android:textStyle="normal|bold"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="54dp"
+                android:layout_height="18dp"
                 android:id="@+id/works"
                 android:layout_below="@+id/usrname"
+                android:layout_marginTop="8dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="6dp"
-                android:background="@drawable/Mozip"
+                android:background="@drawable/mozip"
                 android:foregroundGravity="left"
-                android:layout_alignParentRight="true"
-                />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <View
@@ -89,16 +90,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/midRelative">
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                 android:ellipsize="end"
                 android:lines="2"
                 android:id="@+id/contents"/>
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignStart="@id/contents"
@@ -106,7 +108,7 @@
                 android:id="@+id/hash1"
                 android:background="#EFEFEF"/>
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignStart="@id/hash1"
@@ -138,27 +140,43 @@
             android:layout_marginEnd="16dp"
             android:id="@+id/bottomRelative">
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/submit"
                 android:text="@string/submit"
                 android:layout_alignParentRight="true"
-                android:layout_marginEnd="12dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:lineSpacingExtra="8sp" />
 
-            <TextView
+            <pabix.chickens.una.Widget.NotoTextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/contact"
+                android:text="@string/contact"
+                android:textSize="14sp"
+                android:lineSpacingExtra="8sp"
+                android:layout_toLeftOf="@+id/submit"
+                android:layout_marginRight="12dp" />
+
+            <pabix.chickens.una.Widget.NotoTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/store"
+                android:text="@string/store"
+                android:textSize="14sp"
+                android:lineSpacingExtra="8sp"
+                android:layout_toLeftOf="@+id/contact"
+                android:layout_marginRight="12dp" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvitem"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="test" />
+            android:padding="15dp" >
+        </RelativeLayout>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

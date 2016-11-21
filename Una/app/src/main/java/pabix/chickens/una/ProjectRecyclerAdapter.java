@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -92,6 +93,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    //TODO get List
     public void addAll(List<Item> lst){
         itemList.clear();
         itemList.addAll(lst);
@@ -103,11 +105,12 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyItemRangeChanged(0,itemList.size());
     }
 
+    //TODO setText All about Project
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StudentViewHolder) {
             Item singleItem = (Item) itemList.get(position);
-            ((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
+            //((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
         }
     }
 
@@ -136,11 +139,25 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     static class StudentViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvItem;
+        public TextView usrName,proName,participant,contents,hash1,hash2,hash3,submit,contact,store;
+        public ImageView usrPhoto,works;
 
         public StudentViewHolder(View v) {
             super(v);
-            tvItem = (TextView) v.findViewById(R.id.tvitem);
+            usrName = (TextView) v.findViewById(R.id.usrname);
+            proName = (TextView) v.findViewById(R.id.proname);
+            participant = (TextView) v.findViewById(R.id.participant);
+            contents = (TextView) v.findViewById(R.id.contents);
+            hash1 = (TextView) v.findViewById(R.id.hash1);
+            hash2 = (TextView) v.findViewById(R.id.hash2);
+            hash3 = (TextView) v.findViewById(R.id.hash3);
+            submit = (TextView) v.findViewById(R.id.submit);
+            contact = (TextView) v.findViewById(R.id.contact);
+            store = (TextView) v.findViewById(R.id.store);
+
+            usrPhoto = (ImageView) v.findViewById(R.id.usrPhoto);
+            works = (ImageView) v.findViewById(R.id.works);
+
         }
     }
 
