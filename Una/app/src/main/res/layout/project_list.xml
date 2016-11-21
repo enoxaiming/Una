@@ -136,45 +136,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:id="@+id/bottomRelative">
 
-            <pabix.chickens.una.Widget.NotoTextView
-                android:layout_width="wrap_content"
+            <pabix.chickens.una.Widget.NotoTextButton
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/submit"
                 android:text="@string/submit"
                 android:layout_alignParentRight="true"
                 android:textSize="14sp"
-                android:lineSpacingExtra="8sp" />
+                android:lineSpacingExtra="8sp"
+                android:background="@drawable/btn_bg"/>
 
-            <pabix.chickens.una.Widget.NotoTextView
-                android:layout_width="wrap_content"
+            <pabix.chickens.una.Widget.NotoTextButton
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/contact"
                 android:text="@string/contact"
                 android:textSize="14sp"
                 android:lineSpacingExtra="8sp"
                 android:layout_toLeftOf="@+id/submit"
-                android:layout_marginRight="12dp" />
+                android:background="@drawable/btn_bg"
+                android:layout_marginRight="4dp"/>
 
-            <pabix.chickens.una.Widget.NotoTextView
-                android:layout_width="wrap_content"
+            <pabix.chickens.una.Widget.NotoTextButton
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/store"
                 android:text="@string/store"
                 android:textSize="14sp"
+                android:background="@drawable/btn_bg"
                 android:lineSpacingExtra="8sp"
                 android:layout_toLeftOf="@+id/contact"
-                android:layout_marginRight="12dp" />
+                android:layout_marginRight="4dp" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp" >
         </RelativeLayout>
 
     </LinearLayout>

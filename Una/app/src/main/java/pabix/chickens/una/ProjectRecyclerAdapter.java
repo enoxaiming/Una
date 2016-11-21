@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -139,7 +140,8 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     static class StudentViewHolder extends RecyclerView.ViewHolder {
-        public TextView usrName,proName,participant,contents,hash1,hash2,hash3,submit,contact,store;
+        public TextView usrName,proName,participant,contents,hash1,hash2,hash3;
+        public Button submit,contact,store;
         public ImageView usrPhoto,works;
 
         public StudentViewHolder(View v) {
@@ -151,9 +153,9 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             hash1 = (TextView) v.findViewById(R.id.hash1);
             hash2 = (TextView) v.findViewById(R.id.hash2);
             hash3 = (TextView) v.findViewById(R.id.hash3);
-            submit = (TextView) v.findViewById(R.id.submit);
-            contact = (TextView) v.findViewById(R.id.contact);
-            store = (TextView) v.findViewById(R.id.store);
+            submit = (Button) v.findViewById(R.id.submit);
+            contact = (Button) v.findViewById(R.id.contact);
+            store = (Button) v.findViewById(R.id.store);
 
             usrPhoto = (ImageView) v.findViewById(R.id.usrPhoto);
             works = (ImageView) v.findViewById(R.id.works);
