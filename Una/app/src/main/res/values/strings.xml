@@ -28,7 +28,7 @@
 
     <!--Dialog -->
     <string name="apply">프로젝트 신청</string>
-    <string name="applyit">프로젝트를 신청하시겠습니까?</string>
+    <string name="applyit">이 프로젝트를 신청하시겠습니까?</string>
     <string name="applyo">신청</string>
     <string name="cancel">취소</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

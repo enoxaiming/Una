@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:background="#6AA1C9"
         android:id="@+id/top">
-        <pabix.chickens.una.Widget.NotoBoldTextView
+        <pabix.chickens.una.Widget.NotoTextView
             android:layout_marginTop="9dp"
             android:layout_marginBottom="9dp"
             android:layout_width="match_parent"
@@ -27,21 +27,22 @@
         android:layout_marginTop="12dp"
         android:id="@+id/mid">
 
-        <pabix.chickens.una.Widget.NotoTextView
+        <pabix.chickens.una.Widget.NotoBoldTextView
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/applyit"
             android:textAlignment="center"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_below="@+id/mid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:id="@+id/bottom">
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -50,11 +51,20 @@
 
 
             <pabix.chickens.una.Widget.NotoTextButton
-                android:id="@+id/share_button"
+                style="?android:attr/buttonStyle"
+                android:id="@+id/applybtn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:gravity="center_vertical|center_horizontal|center"
                 android:background="@drawable/btn_bg"
                 android:drawableBottom="@drawable/apply"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:focusable="false"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:clickable="false"
                 />
 
         </LinearLayout>
@@ -62,10 +72,20 @@
         <pabix.chickens.una.Widget.NotoTextButton
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cancelbtn"
             android:background="@drawable/btn_bg"
-            android:drawableBottom="@drawable/cancel" />
+            android:drawableBottom="@drawable/cancel"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:textColor="#6AA1C9"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
     </LinearLayout>
 
 

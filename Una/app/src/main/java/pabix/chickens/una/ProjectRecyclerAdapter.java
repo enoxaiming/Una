@@ -2,6 +2,7 @@ package pabix.chickens.una;
 
 
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import pabix.chickens.una.Item;
+import pabix.chickens.una.Management.UnaApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.Locale;
  * Created by JunHyeok on 2016. 10. 17..
  */
 
-public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
 
@@ -33,6 +35,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
+    private CustomDialog customDialog;
 
     private boolean isMoreLoading = false;
     private int visibleThreshold = 15;
@@ -87,11 +90,16 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
         if (viewType == VIEW_ITEM) {
-            return new StudentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.project_list, parent, false));
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_list, parent, false);
+            //Button btn = (Button)view.findViewById(R.id.submit);
+            //btn.setOnClickListener(this);
+            return new StudentViewHolder(view);
         } else {
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
         }
+
     }
 
     //TODO get List
@@ -106,14 +114,39 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyItemRangeChanged(0,itemList.size());
     }
 
+
     //TODO setText All about Project
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StudentViewHolder) {
             Item singleItem = (Item) itemList.get(position);
             //((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
+            ((StudentViewHolder) holder).store.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NavigationDrawerActivity.contexts);
+                    builder.setView(R.layout.dialog_apply);
+                    builder.show();
+                }
+            });
+
+
+
         }
     }
+
+    private View.OnClickListener leftListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            customDialog.dismiss();
+        }
+    };
+
+    private View.OnClickListener rightListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            customDialog.dismiss();
+        }
+    };
+
 
     public void setMoreLoading(boolean isMoreLoading) {
         this.isMoreLoading=isMoreLoading;

@@ -149,7 +149,7 @@
                 android:layout_alignParentRight="true"
                 android:textSize="14sp"
                 android:lineSpacingExtra="8sp"
-                android:background="@drawable/btn_bg"/>
+                android:background="@drawable/btn_bg" />
 
             <pabix.chickens.una.Widget.NotoTextButton
                 android:layout_width="60dp"

@@ -1,6 +1,7 @@
 package pabix.chickens.una;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -39,7 +40,7 @@ import pabix.chickens.una.Fragments.ProjectListFragment;
 import pabix.chickens.una.Management.UnaApplication;
 
 public class NavigationDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
+        implements  NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
     private SearchView mSearchView;
     private boolean searchViewOn = true;
@@ -48,6 +49,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private long backKeyPressedTime = 0;
     @BindView(R.id.toolbar) Toolbar toolbar;
     private MenuItem searchItem;
+    public static Context contexts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         toolbar.inflateMenu(R.menu.search);
         setSupportActionBar(toolbar);
+
+        contexts = this;
 
         mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.menu_search).getActionView();
 
@@ -191,6 +195,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
             mFragmentList.add(fragment);
         }
     }
+
+
 
 
     @Override
