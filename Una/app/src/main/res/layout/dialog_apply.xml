@@ -85,7 +85,7 @@
     <LinearLayout
         android:layout_below="@+id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="20dp">
+        android:layout_height="15dp">
     </LinearLayout>
 
 

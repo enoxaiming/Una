@@ -2,6 +2,7 @@ package pabix.chickens.una;
 
 
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,11 +36,13 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private OnLoadMoreListener onLoadMoreListener;
     private LinearLayoutManager mLinearLayoutManager;
-    private CustomDialog customDialog;
+    private AlertDialog alertDialog;
 
     private boolean isMoreLoading = false;
     private int visibleThreshold = 15;
     int firstVisibleItem, visibleItemCount, totalItemCount;
+
+    private com.getbase.floatingactionbutton.FloatingActionsMenu fab;
 
     public interface OnLoadMoreListener{
         void onLoadMore();
@@ -59,6 +62,7 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
 
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = mLinearLayoutManager.getItemCount();
@@ -124,9 +128,23 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((StudentViewHolder) holder).store.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(NavigationDrawerActivity.contexts);
-                    builder.setView(R.layout.dialog_apply);
-                    builder.show();
+                    alertDialog = new AlertDialog.Builder(NavigationDrawerActivity.contexts).create();
+                    View view = View.inflate(NavigationDrawerActivity.contexts,R.layout.dialog_apply,null);
+                    alertDialog.setView(view);
+                    view.findViewById(R.id.applybtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    view.findViewById(R.id.cancelbtn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
                 }
             });
 
@@ -134,18 +152,6 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         }
     }
-
-    private View.OnClickListener leftListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            customDialog.dismiss();
-        }
-    };
-
-    private View.OnClickListener rightListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            customDialog.dismiss();
-        }
-    };
 
 
     public void setMoreLoading(boolean isMoreLoading) {
