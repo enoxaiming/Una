@@ -44,7 +44,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private SearchView mSearchView;
     private boolean searchViewOn = true;
-    private String[] title = {"Hi","bi","kk","zk"};
     private Activity activity;
     private long backKeyPressedTime = 0;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -148,7 +147,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 else {
                     searchViewOn = false;
                 }
-                toolbar.setTitle(title[tabLayout.getSelectedTabPosition()]);
                 int tabBarIcon = ContextCompat.getColor(UnaApplication.getContext(),R.color.maincolor);
                 tab.getIcon().setColorFilter(tabBarIcon, PorterDuff.Mode.SRC_IN);
             }

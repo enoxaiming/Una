@@ -5,6 +5,7 @@ package pabix.chickens.una.HTTPConnection;
  */
 
 public class Repo {
+    private boolean isSuccess;
     private String projectName; //프로젝트 명
     private int id;
     private String launcher; //개설자
@@ -16,6 +17,14 @@ public class Repo {
     private String wants;//마감날짜
     private int views; //조회수
     private int likes; //좋아요
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(boolean success) {
+        isSuccess = success;
+    }
 
     public String getProjectName() {
         return projectName;

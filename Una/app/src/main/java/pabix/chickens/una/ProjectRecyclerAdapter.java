@@ -97,8 +97,6 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View view = null;
         if (viewType == VIEW_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.project_list, parent, false);
-            //Button btn = (Button)view.findViewById(R.id.submit);
-            //btn.setOnClickListener(this);
             return new StudentViewHolder(view);
         } else {
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));

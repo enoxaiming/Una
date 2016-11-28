@@ -24,21 +24,30 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import pabix.chickens.una.Database.ProjectVO;
 import pabix.chickens.una.Database.UserVO;
 import pabix.chickens.una.HTTPConnection.AddProject;
 import pabix.chickens.una.HTTPConnection.Repo;
+import pabix.chickens.una.HTTPConnection.SecondRepo;
+import pabix.chickens.una.HTTPConnection.SendPlainText;
 import pabix.chickens.una.Management.UnaApplication;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -162,20 +171,20 @@ public class LoginActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        AddProject doSignup = retrofit.create(AddProject.class);
+        final AddProject doSignup = retrofit.create(AddProject.class);
 
-        Call<Repo> call = doSignup.doSignup(
-                "321321","fdsaf","31231","dasf","2016-08-01","2016-09-11",true,3,"fdaf;fdas;");
+        Call<List<SecondRepo>> call = doSignup.doSignup(
+                "321321","fdsaf","31231","dasf","2016-08-01","2016-09-11",1,3,"fdaf;fdas;");
 
-        call.enqueue(new Callback<Repo>() {
+        call.enqueue(new Callback<List<SecondRepo>>() {
             @Override
-            public void onResponse(Call<Repo> call, Response<Repo> response) {
+            public void onResponse(Call<List<SecondRepo>> call, Response<List<SecondRepo>> response) {
                 Log.e("Log",response.message());
-                Log.e("Log",response.raw().toString());
+                Log.e("Log",String.valueOf(response.body().get(0).isSuccess()));
             }
 
             @Override
-            public void onFailure(Call<Repo> call, Throwable t) {
+            public void onFailure(Call<List<SecondRepo>> call, Throwable t) {
                 t.printStackTrace();
             }
         });

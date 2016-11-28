@@ -9,6 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </RelativeLayout>
+
         <!-- TODO: Update blank fragment layout -->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/nav_swiperefresh"
@@ -23,7 +30,7 @@
 
     </LinearLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,14 +41,6 @@
         app:layout_anchor="@id/nav_recyclerview"
         android:layout_above="@+id/tab_layout"
         android:layout_alignParentEnd="true">
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_b"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </android.support.design.widget.FloatingActionButton>
 
 </FrameLayout>
