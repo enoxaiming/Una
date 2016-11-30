@@ -1,5 +1,7 @@
 package pabix.chickens.una.HTTPConnection;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.POST;
@@ -10,7 +12,7 @@ import retrofit2.http.POST;
 
 public interface insertDatas {
     @POST("user/signup/insertData")
-    Call<Repo> insertData (@Field("username") String name,
+    Call<List<Successful>> insertData (@Field("username") String name,
                            @Field("id") String id,
                            @Field("email") String email,
                            @Field("gender") String gender,

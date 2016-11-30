@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface AddProject {
     @FormUrlEncoded
     @POST("project/list/insertProject")
-        Call<List<SecondRepo>> doSignup(@Field("id") String id,
+        Call<List<Successful>> doSignup(@Field("id") String id,
                                         @Field("projectName") String name,
                                         @Field("launcher") String host,
                                         @Field("contents") String contents,

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -24,7 +23,6 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,15 +30,9 @@ import butterknife.ButterKnife;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import pabix.chickens.una.Database.ProjectVO;
 import pabix.chickens.una.Database.UserVO;
 import pabix.chickens.una.HTTPConnection.AddProject;
-import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.HTTPConnection.SecondRepo;
-import pabix.chickens.una.HTTPConnection.SendPlainText;
 import pabix.chickens.una.Management.UnaApplication;
 import pabix.chickens.una.R;
 import retrofit2.Call;
@@ -48,7 +40,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
