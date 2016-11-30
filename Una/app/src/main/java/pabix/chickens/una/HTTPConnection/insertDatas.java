@@ -8,9 +8,9 @@ import retrofit2.http.POST;
  * Created by JunHyeok on 2016. 11. 30..
  */
 
-public interface insertData {
+public interface insertDatas {
     @POST("user/signup/insertData")
-    Call<Repo> insertDatas (@Field("username") String name,
+    Call<Repo> insertData (@Field("username") String name,
                            @Field("id") String id,
                            @Field("email") String email,
                            @Field("gender") String gender,
