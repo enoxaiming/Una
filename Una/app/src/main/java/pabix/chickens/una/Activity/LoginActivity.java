@@ -1,4 +1,4 @@
-package pabix.chickens.una;
+package pabix.chickens.una.Activity;
 
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -42,6 +42,7 @@ import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.HTTPConnection.SecondRepo;
 import pabix.chickens.una.HTTPConnection.SendPlainText;
 import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

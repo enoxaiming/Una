@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="pabix.chickens.una.NavigationDrawerActivity">
+    tools:context="pabix.chickens.una.Activity.NavigationDrawerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

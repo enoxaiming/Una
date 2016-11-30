@@ -1,4 +1,4 @@
-package pabix.chickens.una;
+package pabix.chickens.una.Activity;
 
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.AccessToken;
+
+import pabix.chickens.una.R;
 
 public class SplashActivity extends AppCompatActivity {
 

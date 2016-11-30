@@ -1,4 +1,4 @@
-package pabix.chickens.una;
+package pabix.chickens.una.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import pabix.chickens.una.R;
 
 /**
  * Created by JunHyeok on 2016. 11. 22..

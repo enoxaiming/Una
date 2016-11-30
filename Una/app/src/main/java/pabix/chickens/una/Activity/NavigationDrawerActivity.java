@@ -1,4 +1,4 @@
-package pabix.chickens.una;
+package pabix.chickens.una.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +28,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import io.realm.Realm;
@@ -38,6 +37,8 @@ import pabix.chickens.una.Fragments.MyPageFragment;
 import pabix.chickens.una.Fragments.ProjectLikedFragment;
 import pabix.chickens.una.Fragments.ProjectListFragment;
 import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.R;
+import pabix.chickens.una.SearchViewActivity;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements  NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
@@ -46,7 +47,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private boolean searchViewOn = true;
     private Activity activity;
     private long backKeyPressedTime = 0;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    private Toolbar toolbar;
     private MenuItem searchItem;
     public static Context contexts;
 
@@ -56,6 +57,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Realm.init(UnaApplication.getContext());
         ButterKnife.bind(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         toolbar.inflateMenu(R.menu.search);
         setSupportActionBar(toolbar);

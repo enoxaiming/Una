@@ -1,28 +1,24 @@
-package pabix.chickens.una;
+package pabix.chickens.una.Adapter;
 
 
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import pabix.chickens.una.Item;
-import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.Activity.NavigationDrawerActivity;
+import pabix.chickens.una.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by JunHyeok on 2016. 10. 17..
