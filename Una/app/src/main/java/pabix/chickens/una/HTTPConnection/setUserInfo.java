@@ -12,5 +12,5 @@ import retrofit2.http.Query;
 
 public interface setUserInfo {
     @GET("userAuth/userInfo")
-    Call<List<Repo>> setUser(@Query("id") String id);
+    Call<List<UserRepo>> setUser(@Query("id") String id);
 }

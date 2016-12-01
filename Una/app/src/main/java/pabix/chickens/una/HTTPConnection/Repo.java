@@ -5,33 +5,27 @@ package pabix.chickens.una.HTTPConnection;
  */
 
 public class Repo {
-    private boolean isSuccess;
-    private String projectName; //프로젝트 명
-    private int id;
+    private int project_idx; //고유숫자
+    private String wants; //태그
+    private int view_count; //조회수
     private String launcher; //개설자
-    private String contents; //내용
+    private String projectName; //프로젝트 명
+    private int like_count; //좋아요
+    private String subscriber; //구독자
+    private int isAvaliable; //사용가능
+    private String finishDate; //마감날짜
     private String launchDate; //시작날짜
-    private String finishDate;
-    private boolean isAvailable;
-    private int Applicants;
-    private String wants;//마감날짜
-    private int views; //조회수
-    private int likes; //좋아요
+    private String id; //id
+    private String contents; //내용
+    private int Applicants; //참가자
 
-    public boolean isSuccess() {
-        return isSuccess;
+
+    public int getProject_idx() {
+        return project_idx;
     }
 
-    public void setSuccess(boolean success) {
-        isSuccess = success;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setProject_idx(int project_idx) {
+        this.project_idx = project_idx;
     }
 
     public String getWants() {
@@ -42,20 +36,52 @@ public class Repo {
         this.wants = wants;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public int getView_count() {
+        return view_count;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setView_count(int view_count) {
+        this.view_count = view_count;
     }
 
-    public int getApplicants() {
-        return Applicants;
+    public String getLauncher() {
+        return launcher;
     }
 
-    public void setApplicants(int applicants) {
-        Applicants = applicants;
+    public void setLauncher(String launcher) {
+        this.launcher = launcher;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public int getLike_count() {
+        return like_count;
+    }
+
+    public void setLike_count(int like_count) {
+        this.like_count = like_count;
+    }
+
+    public String getSubscriber() {
+        return subscriber;
+    }
+
+    public void setSubscriber(String subscriber) {
+        this.subscriber = subscriber;
+    }
+
+    public int isAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setAvaliable(int avaliable) {
+        isAvaliable = avaliable;
     }
 
     public String getFinishDate() {
@@ -74,12 +100,12 @@ public class Repo {
         this.launchDate = launchDate;
     }
 
-    public String getLauncher() {
-        return launcher;
+    public String getId() {
+        return id;
     }
 
-    public void setLauncher(String launcher) {
-        this.launcher = launcher;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContents() {
@@ -90,11 +116,11 @@ public class Repo {
         this.contents = contents;
     }
 
-    public int getId() {
-        return id;
+    public int getApplicants() {
+        return Applicants;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setApplicants(int applicants) {
+        Applicants = applicants;
     }
 }

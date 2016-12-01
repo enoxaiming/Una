@@ -38,7 +38,6 @@ import pabix.chickens.una.Fragments.ProjectLikedFragment;
 import pabix.chickens.una.Fragments.ProjectListFragment;
 import pabix.chickens.una.Management.UnaApplication;
 import pabix.chickens.una.R;
-import pabix.chickens.una.SearchViewActivity;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements  NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
@@ -267,7 +266,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            startActivity(new Intent(NavigationDrawerActivity.this,SearchViewActivity.class));
+            //startActivity(new Intent(NavigationDrawerActivity.this,SearchViewActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
