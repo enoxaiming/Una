@@ -32,7 +32,10 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import pabix.chickens.una.Database.UserVO;
 import pabix.chickens.una.HTTPConnection.AddProject;
-import pabix.chickens.una.HTTPConnection.SecondRepo;
+import pabix.chickens.una.HTTPConnection.Repo;
+import pabix.chickens.una.HTTPConnection.Successful;
+import pabix.chickens.una.HTTPConnection.getProjects;
+import pabix.chickens.una.Management.URLManager;
 import pabix.chickens.una.Management.UnaApplication;
 import pabix.chickens.una.R;
 import retrofit2.Call;
@@ -123,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doSignUp();
+                getProject();
             }
         });
     }
@@ -159,24 +162,48 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doSignUp() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://54.214.215.13:5000/")
+                .baseUrl(URLManager.URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         final AddProject doSignup = retrofit.create(AddProject.class);
 
-        Call<List<SecondRepo>> call = doSignup.doSignup(
+        Call<List<Successful>> call = doSignup.doSignup(
                 "321321","fdsaf","31231","dasf","2016-08-01","2016-09-11",1,3,"fdaf;fdas;");
 
-        call.enqueue(new Callback<List<SecondRepo>>() {
+        call.enqueue(new Callback<List<Successful>>() {
             @Override
-            public void onResponse(Call<List<SecondRepo>> call, Response<List<SecondRepo>> response) {
+            public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
                 Log.e("Log",response.message());
                 Log.e("Log",String.valueOf(response.body().get(0).isSuccess()));
             }
 
             @Override
-            public void onFailure(Call<List<SecondRepo>> call, Throwable t) {
+            public void onFailure(Call<List<Successful>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void getProject() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final getProjects getProjects = retrofit.create(getProjects.class);
+
+        Call<List<Repo>> call = getProjects.getProject();
+
+        Log.e("start","se");
+        call.enqueue(new Callback<List<Repo>>() {
+            @Override
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+                Log.e("launcher",response.body().get(0).getLauncher());
+            }
+
+            @Override
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
