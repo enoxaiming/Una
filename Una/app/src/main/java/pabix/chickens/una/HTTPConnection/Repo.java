@@ -19,6 +19,13 @@ public class Repo {
     private String contents; //내용
     private int Applicants; //참가자
 
+    public int getIsAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setIsAvaliable(int isAvaliable) {
+        this.isAvaliable = isAvaliable;
+    }
 
     public int getProject_idx() {
         return project_idx;

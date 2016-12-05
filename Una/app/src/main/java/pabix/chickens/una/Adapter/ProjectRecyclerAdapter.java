@@ -285,7 +285,6 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.project_list, parent, false);
-
         return new MyViewHolder(itemView);
     }
 

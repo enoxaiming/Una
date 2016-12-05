@@ -26,6 +26,7 @@ public class UnaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Realm.init(this);
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         context = this;

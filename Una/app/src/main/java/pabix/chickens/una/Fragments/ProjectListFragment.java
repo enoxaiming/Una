@@ -1,13 +1,17 @@
 package pabix.chickens.una.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +23,22 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import pabix.chickens.una.Activity.NavigationDrawerActivity;
+import pabix.chickens.una.HTTPConnection.Repo;
+import pabix.chickens.una.HTTPConnection.getProjects;
 import pabix.chickens.una.Item;
+import pabix.chickens.una.Management.URLManager;
 import pabix.chickens.una.Management.UnaApplication;
 import pabix.chickens.una.Adapter.ProjectRecyclerAdapter;
 import pabix.chickens.una.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +48,7 @@ import pabix.chickens.una.R;
  * Use the {@link ProjectListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProjectListFragment extends Fragment implements ProjectRecyclerAdapter.OnLoadMoreListener {
+public class ProjectListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -40,13 +56,17 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
 
     private OnFragmentInteractionListener mListener;
 
-    private List<Item> mList;
-    private ProjectRecyclerAdapter mAdapter;
+
 
     @BindView(R.id.nav_swiperefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.nav_recyclerview)
     RecyclerView mRecyclerView;
+
+    private RealmRecyclerView realmRecyclerView;
+    private RealmConfiguration realmConfiguration;
+    private Realm realm;
+    private String type;
 
     public ProjectListFragment() {
         // Required empty public constructor
@@ -81,32 +101,20 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_project_list, container, false);
         ButterKnife.bind(view);
-        FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu)view.findViewById(R.id.multiple_actions);
-        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        realmRecyclerView = (RealmRecyclerView) view.findViewById(R.id.realm_recycler_view);
+        realm = Realm.getInstance(getRealmConfig());
 
-            }
-        });
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.nav_recyclerview);
-        mRecyclerView.setHasFixedSize(true);
-        mList = new ArrayList<Item>();
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.nav_swiperefresh);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(UnaApplication.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProjectRecyclerAdapter(this);
-        mAdapter.setLinearLayoutManager(mLayoutManager);
-        mAdapter.setRecyclerView(mRecyclerView);
-        mRecyclerView.setAdapter(mAdapter);
-        baseItem();
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshItems();
-            }
-        });
         return view;
+    }
+
+    protected RealmConfiguration getRealmConfig() {
+        if (realmConfiguration == null) {
+            realmConfiguration = new RealmConfiguration
+                    .Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+        }
+        return realmConfiguration;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -148,41 +156,11 @@ public class ProjectListFragment extends Fragment implements ProjectRecyclerAdap
         void onFragmentInteraction(Uri uri);
     }
 
-    //아이템 새로고침
-    private void refreshItems() {
-        mList.clear();
-        for (int i = 1; i <= 20; i++) {
-            mList.add(new Item("Item " + i));
-        }
-        mAdapter.addAll(mList);
-        mSwipeRefreshLayout.setRefreshing(false); // 새로고침 후 다시 리프레시 버튼 올라가기
-    }
 
-    public void onLoadMore() {
-        mAdapter.setProgressMore(true);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mList.clear();
-                mAdapter.setProgressMore(false);
-                int start = mAdapter.getItemCount();
-                int end = start + 15;
-                for (int i = start + 1; i <= end; i++) {
-                    mList.add(new Item("Item " + i));
-                }
-                mAdapter.addItemMore(mList);
-                mAdapter.setMoreLoading(false);
-            }
-        },2000);
-    }
 
-    //TODO setItems about Projects
-    public void baseItem() {
-        for(int i = 1; i <= 20; i++) {
-            mList.add(new Item("Item" + i));
-        }
-        mAdapter.addAll(mList);
-    }
+
+
+
 
 
 }

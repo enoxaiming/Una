@@ -23,6 +23,24 @@ public class ProjectVO extends RealmObject {
     private String contents; //내용
     private int Applicants; //참가자
 
+    public ProjectVO() {
+    }
+
+    public ProjectVO(int project_idx,String wants,int view_count,String launcher,String projectName,int like_count,String subscriber,int isAvaliable,String finishDate,String launchDate,String id,String contents,int applicants) {
+        this.project_idx = project_idx;
+        this.view_count = view_count;
+        this.launcher = launcher;
+        this.projectName = projectName;
+        this.like_count = like_count;
+        this.subscriber = subscriber;
+        this.isAvaliable = isAvaliable;
+        this.finishDate = finishDate;
+        this.launchDate = launchDate;
+        this.id = id;
+        this.contents = contents;
+        this.Applicants = applicants;
+    }
+
 
     public int getProject_idx() {
         return project_idx;
