@@ -1,6 +1,7 @@
 package pabix.chickens.una.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -209,7 +210,7 @@ public class ProjectListFragment extends Fragment {
             String proName = realmResults.get(position).getProjectName();
             int participants = realmResults.get(position).getApplicants();
             String contents = realmResults.get(position).getContents();
-            String userPhoto = realmResults.get(position).getId();
+            final String userPhoto = realmResults.get(position).getId();
             String wants = realmResults.get(position).getWants();
 
             String URL = "https://graph.facebook.com/" + userPhoto +"/picture?type=large";
@@ -221,7 +222,7 @@ public class ProjectListFragment extends Fragment {
             Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(holder.usrPhoto);
 
             //((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
-            holder.store.setOnClickListener(new View.OnClickListener() {
+            holder.submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     alertDialog = new AlertDialog.Builder(NavigationDrawerActivity.contexts).create();
@@ -241,6 +242,14 @@ public class ProjectListFragment extends Fragment {
                         }
                     });
                     alertDialog.show();
+                }
+            });
+            holder.contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url ="https://www.facebook.com/messages/" + userPhoto ;
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
                 }
             });
         }
