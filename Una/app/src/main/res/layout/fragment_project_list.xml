@@ -16,6 +16,7 @@
             android:id="@+id/realm_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#F1F1F1"
             app:rrvIsRefreshable="true"
             app:rrvEmptyLayoutId="@layout/footer_view"
             app:rrvLayoutType="LinearLayout"
