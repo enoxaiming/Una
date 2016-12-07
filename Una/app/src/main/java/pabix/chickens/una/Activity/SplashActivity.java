@@ -16,7 +16,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import pabix.chickens.una.Adapter.ProjectRecyclerAdapter;
 import pabix.chickens.una.Database.ProjectVO;
 import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.HTTPConnection.getProjects;

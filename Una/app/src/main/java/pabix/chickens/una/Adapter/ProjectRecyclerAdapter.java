@@ -1,3 +1,4 @@
+/*
 package pabix.chickens.una.Adapter;
 
 
@@ -24,12 +25,15 @@ import pabix.chickens.una.R;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by JunHyeok on 2016. 10. 17..
- */
+ *//*
+
 
 public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecyclerAdapter.MyViewHolder>{
-    /*private final int VIEW_ITEM = 1;
+    */
+/*private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
 
     private ArrayList<Item> itemList;
@@ -259,7 +263,8 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
             super(v);
             pBar = (ProgressBar) v.findViewById(R.id.pBar);
         }
-    }*/
+    }*//*
+
 
 
 
@@ -365,3 +370,4 @@ public class ProjectRecyclerAdapter extends RecyclerView.Adapter<ProjectRecycler
     }
 
 }
+*/
