@@ -59,6 +59,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        toolbar.setBackgroundColor(getResources().getColor(R.color.maincolor));
+        toolbar.setTitle("");
+
         toolbar.inflateMenu(R.menu.search);
         setSupportActionBar(toolbar);
 
