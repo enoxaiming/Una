@@ -58,10 +58,7 @@ public class ProjectListFragment extends Fragment {
 
 
 
-    @BindView(R.id.nav_swiperefresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.nav_recyclerview)
-    RecyclerView mRecyclerView;
+
 
     private RealmRecyclerView realmRecyclerView;
     private RealmConfiguration realmConfiguration;

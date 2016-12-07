@@ -13,6 +13,7 @@ import com.facebook.appevents.AppEventsLogger;
 import org.json.JSONObject;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by JunHyeok on 2016. 10. 6..
@@ -21,12 +22,14 @@ import io.realm.Realm;
 public class UnaApplication extends Application {
 
     public static Context context;
+    private RealmConfiguration realmConfiguration;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
+        Realm.setDefaultConfiguration(getRealmConfig());
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         context = this;
@@ -50,6 +53,16 @@ public class UnaApplication extends Application {
 
     public static Context getContext() {
         return context;
+    }
+
+    protected RealmConfiguration getRealmConfig() {
+        if (realmConfiguration == null) {
+            realmConfiguration = new RealmConfiguration
+                    .Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+        }
+        return realmConfiguration;
     }
 
 

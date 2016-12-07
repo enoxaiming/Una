@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import pabix.chickens.una.Adapter.ProjectRecyclerAdapter;
 import pabix.chickens.una.Database.ProjectVO;
@@ -30,7 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private Realm mRealm;
+    private Realm mRealm = Realm.getDefaultInstance();
+    private RealmConfiguration realmConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,25 +88,8 @@ public class SplashActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                mRealm.beginTransaction();
-                List<Repo> list = response.body();
-                ProjectVO projects = mRealm.createObject(ProjectVO.class);
-                for(int count = 0 ; count < response.body().size(); count++) {
-                    projects.setProject_idx(list.get(count).getProject_idx());
-                    projects.setApplicants(list.get(count).getApplicants());
-                    projects.setAvaliable(list.get(count).getIsAvaliable());
-                    projects.setContents(list.get(count).getContents());
-                    projects.setId(list.get(count).getId());
-                    projects.setWants(list.get(count).getWants());
-                    projects.setView_count(list.get(count).getView_count());
-                    projects.setLaunchDate(list.get(count).getLaunchDate());
-                    projects.setFinishDate(list.get(count).getFinishDate());
-                    projects.setSubscriber(list.get(count).getSubscriber());
-                    projects.setLike_count(list.get(count).getLike_count());
-                    projects.setProjectName(list.get(count).getProjectName());
-                    projects.setLauncher(list.get(count).getLauncher());
-                }
-                mRealm.commitTransaction();
+                Log.e("cout",String.valueOf(response.body().size()));
+                insertData(response.body().size(),response.body());
             }
 
             @Override
@@ -118,8 +103,32 @@ public class SplashActivity extends AppCompatActivity {
 
         mRealm.beginTransaction();
 
-        RealmResults<ProjectVO> userList = mRealm.where(ProjectVO.class).findAll();
-        userList.remove(0);
+        RealmResults<ProjectVO> projectList = mRealm.where(ProjectVO.class).findAll();
+        projectList.deleteAllFromRealm();
+
+        mRealm.commitTransaction();
+    }
+
+
+    private void insertData(int size,List<Repo> list) {
+        mRealm.beginTransaction();
+        ProjectVO projects = new ProjectVO();
+        for(int count = 0 ; count < size; count++) {
+            projects.setProject_idx(list.get(count).getProject_idx());
+            projects.setApplicants(list.get(count).getApplicants());
+            projects.setAvaliable(list.get(count).getIsAvaliable());
+            projects.setContents(list.get(count).getContents());
+            projects.setId(list.get(count).getId());
+            projects.setWants(list.get(count).getWants());
+            projects.setView_count(list.get(count).getView_count());
+            projects.setLaunchDate(list.get(count).getLaunchDate());
+            projects.setFinishDate(list.get(count).getFinishDate());
+            projects.setSubscriber(list.get(count).getSubscriber());
+            projects.setLike_count(list.get(count).getLike_count());
+            projects.setProjectName(list.get(count).getProjectName());
+            projects.setLauncher(list.get(count).getLauncher());
+            mRealm.copyToRealmOrUpdate(projects);
+        }
         mRealm.commitTransaction();
     }
 }
