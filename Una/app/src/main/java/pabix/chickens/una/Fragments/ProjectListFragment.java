@@ -56,6 +56,8 @@ public class ProjectListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Realm mRealm = Realm.getDefaultInstance();
+
 
 
 
@@ -63,7 +65,6 @@ public class ProjectListFragment extends Fragment {
     private RealmRecyclerView realmRecyclerView;
     private RealmConfiguration realmConfiguration;
     private ProjectRecyclerViewAdapter projectRecyclerViewAdapter;
-    private Realm realm = Realm.getDefaultInstance();
     private String type;
 
     public ProjectListFragment() {
@@ -101,7 +102,7 @@ public class ProjectListFragment extends Fragment {
         ButterKnife.bind(view);
         realmRecyclerView = (RealmRecyclerView) view.findViewById(R.id.realm_recycler_view);
 
-        RealmResults<ProjectVO> projectVOs = realm.where(ProjectVO.class).findAll();
+        RealmResults<ProjectVO> projectVOs = mRealm.where(ProjectVO.class).findAll();
         Log.e("project",String.valueOf(projectVOs.size()));
         projectRecyclerViewAdapter = new ProjectRecyclerViewAdapter(getContext(),projectVOs,false,false,null);
         realmRecyclerView.setAdapter(projectRecyclerViewAdapter);
@@ -114,6 +115,7 @@ public class ProjectListFragment extends Fragment {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                asyncRefreshAllQuotes();
                                 realmRecyclerView.setRefreshing(false);
                             }
                         },3000);
@@ -123,6 +125,29 @@ public class ProjectListFragment extends Fragment {
         );
 
         return view;
+    }
+
+    private void asyncRefreshAllQuotes() {
+        deleteuserData();
+        AsyncTask<Void, Void, Void> remoteItem = new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                // Add some delay to the refresh/remove action.
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+                }
+                getProject();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                realmRecyclerView.setRefreshing(false);
+            }
+        };
+        remoteItem.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -255,30 +280,6 @@ public class ProjectListFragment extends Fragment {
         }
 
 
-        private void asyncRefreshAllQuotes() {
-            AsyncTask<Void, Void, Void> remoteItem = new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    deleteuserData();
-                    // Add some delay to the refresh/remove action.
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ignored) {
-                    }
-                    getProject();
-                    mRealm.close();
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    realmRecyclerView.setRefreshing(false);
-                }
-            };
-            remoteItem.execute();
-        }
-
         private void asyncLoadMoreProjects() {
             AsyncTask<Void, Void, Void> remoteItem = new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -311,63 +312,66 @@ public class ProjectListFragment extends Fragment {
             remoteItem.execute();
         }
 
-        private void getProject() {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(URLManager.URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            final getProjects getProjects = retrofit.create(getProjects.class);
-
-            Call<List<Repo>> call = getProjects.getProject();
-
-            call.enqueue(new Callback<List<Repo>>() {
-                @Override
-                public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                    Log.e("cout",String.valueOf(response.body().size()));
-                    insertData(response.body().size(),response.body());
-                }
-
-                @Override
-                public void onFailure(Call<List<Repo>> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        }
-
-        private void deleteuserData(){
-
-            mRealm.beginTransaction();
-
-            RealmResults<ProjectVO> projectList = mRealm.where(ProjectVO.class).findAll();
-            projectList.deleteAllFromRealm();
-
-            mRealm.commitTransaction();
-        }
 
 
-        private void insertData(int size,List<Repo> list) {
-            mRealm.beginTransaction();
-            ProjectVO projects = new ProjectVO();
-            for(int count = 0 ; count < size; count++) {
-                projects.setProject_idx(list.get(count).getProject_idx());
-                projects.setApplicants(list.get(count).getApplicants());
-                projects.setAvaliable(list.get(count).getIsAvaliable());
-                projects.setContents(list.get(count).getContents());
-                projects.setId(list.get(count).getId());
-                projects.setWants(list.get(count).getWants());
-                projects.setView_count(list.get(count).getView_count());
-                projects.setLaunchDate(list.get(count).getLaunchDate());
-                projects.setFinishDate(list.get(count).getFinishDate());
-                projects.setSubscriber(list.get(count).getSubscriber());
-                projects.setLike_count(list.get(count).getLike_count());
-                projects.setProjectName(list.get(count).getProjectName());
-                projects.setLauncher(list.get(count).getLauncher());
-                mRealm.copyToRealmOrUpdate(projects);
+    }
+
+    private void getProject() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final getProjects getProjects = retrofit.create(getProjects.class);
+
+        Call<List<Repo>> call = getProjects.getProject();
+
+        call.enqueue(new Callback<List<Repo>>() {
+            @Override
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+                Log.e("cout",String.valueOf(response.body().size()));
+                insertData(response.body().size(),response.body());
             }
-            mRealm.commitTransaction();
-        }
 
+            @Override
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void deleteuserData(){
+
+        mRealm.beginTransaction();
+
+        RealmResults<ProjectVO> projectList = mRealm.where(ProjectVO.class).findAll();
+        projectList.deleteAllFromRealm();
+
+        mRealm.commitTransaction();
+    }
+
+
+    private void insertData(int size,List<Repo> list) {
+        mRealm.beginTransaction();
+        ProjectVO projects = new ProjectVO();
+        for(int count = 0 ; count < size; count++) {
+            projects.setProject_idx(list.get(count).getProject_idx());
+            projects.setApplicants(list.get(count).getApplicants());
+            projects.setAvaliable(list.get(count).getIsAvaliable());
+            projects.setContents(list.get(count).getContents());
+            projects.setId(list.get(count).getId());
+            projects.setWants(list.get(count).getWants());
+            projects.setView_count(list.get(count).getView_count());
+            projects.setLaunchDate(list.get(count).getLaunchDate());
+            projects.setFinishDate(list.get(count).getFinishDate());
+            projects.setSubscriber(list.get(count).getSubscriber());
+            projects.setLike_count(list.get(count).getLike_count());
+            projects.setProjectName(list.get(count).getProjectName());
+            projects.setLauncher(list.get(count).getLauncher());
+            mRealm.copyToRealmOrUpdate(projects);
+        }
+        mRealm.commitTransaction();
+        mRealm.close();
     }
 
 
