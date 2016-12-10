@@ -36,7 +36,8 @@
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:letterSpacing="-0.1"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:id="@+id/send" />
 
 
 

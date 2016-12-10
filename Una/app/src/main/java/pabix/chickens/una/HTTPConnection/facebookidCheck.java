@@ -1,5 +1,7 @@
 package pabix.chickens.una.HTTPConnection;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,6 +12,6 @@ import retrofit2.http.Query;
 
 public interface facebookidCheck {
     @GET("userAuth/checkuser")
-    Call<Repo> checkID(@Query("id") String id);
+    Call<List<Successful>> checkID(@Query("id") String id);
 
 }

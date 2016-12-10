@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -28,6 +29,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
 import pabix.chickens.una.Activity.NavigationDrawerActivity;
+import pabix.chickens.una.Activity.ProjectAddActivity;
 import pabix.chickens.una.Database.ProjectVO;
 import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.HTTPConnection.getProjects;
@@ -101,6 +103,15 @@ public class ProjectListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_project_list, container, false);
         ButterKnife.bind(view);
         realmRecyclerView = (RealmRecyclerView) view.findViewById(R.id.realm_recycler_view);
+
+        FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.multiple_actions);
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_send));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NavigationDrawerActivity.contexts, ProjectAddActivity.class));
+            }
+        });
 
         RealmResults<ProjectVO> projectVOs = mRealm.where(ProjectVO.class).findAll();
         Log.e("project",String.valueOf(projectVOs.size()));

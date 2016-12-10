@@ -34,7 +34,9 @@ import pabix.chickens.una.Database.UserVO;
 import pabix.chickens.una.HTTPConnection.AddProject;
 import pabix.chickens.una.HTTPConnection.Repo;
 import pabix.chickens.una.HTTPConnection.Successful;
+import pabix.chickens.una.HTTPConnection.facebookidCheck;
 import pabix.chickens.una.HTTPConnection.getProjects;
+import pabix.chickens.una.HTTPConnection.insertDatas;
 import pabix.chickens.una.Management.URLManager;
 import pabix.chickens.una.Management.UnaApplication;
 import pabix.chickens.una.R;
@@ -205,6 +207,53 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Repo>> call, Throwable t) {
                 t.printStackTrace();
+            }
+        });
+    }
+    private void facebookIdCheck(String id) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final facebookidCheck facebookidCheck = retrofit.create(pabix.chickens.una.HTTPConnection.facebookidCheck.class);
+        Call<List<Successful>> call = facebookidCheck.checkID(id);
+
+        call.enqueue(new Callback<List<Successful>>() {
+            @Override
+            public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
+                if(!response.body().get(0).isSuccess()) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Successful>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void insert(String name,String id,String email,String gender,int kisu,String major,String main,String message,String joined) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URLManager.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        final insertDatas insertData = retrofit.create(insertDatas.class);
+
+        Call<List<Successful>> call = insertData.insertData(name,id,email,gender,kisu,major,main,"","");
+
+        call.enqueue(new Callback<List<Successful>>() {
+            @Override
+            public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Successful>> call, Throwable t) {
+
             }
         });
     }
