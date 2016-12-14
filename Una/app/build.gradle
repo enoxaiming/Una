@@ -64,5 +64,8 @@ dependencies {
     //CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    //toggleButton
+    compile 'org.honorato.multistatetogglebutton:multistatetogglebutton:0.2.2'
+
     testCompile 'junit:junit:4.12'
 }

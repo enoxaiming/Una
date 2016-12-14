@@ -8,15 +8,19 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 
 import java.util.List;
 import java.util.logging.Handler;
@@ -60,9 +64,8 @@ public class ProjectListFragment extends Fragment {
 
     private Realm mRealm = Realm.getDefaultInstance();
 
-
-
-
+    public static final int ITEM_TYPE_NORMAL = 0;
+    public static final int ITEM_TYPE_HEADER = 1;
 
     private RealmRecyclerView realmRecyclerView;
     private RealmConfiguration realmConfiguration;
@@ -105,13 +108,14 @@ public class ProjectListFragment extends Fragment {
         realmRecyclerView = (RealmRecyclerView) view.findViewById(R.id.realm_recycler_view);
 
         FloatingActionButton fab = (FloatingActionButton)view.findViewById(R.id.multiple_actions);
-        fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_send));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(NavigationDrawerActivity.contexts, ProjectAddActivity.class));
             }
         });
+
+
 
         RealmResults<ProjectVO> projectVOs = mRealm.where(ProjectVO.class).findAll();
         Log.e("project",String.valueOf(projectVOs.size()));
@@ -129,7 +133,7 @@ public class ProjectListFragment extends Fragment {
                                 asyncRefreshAllQuotes();
                                 realmRecyclerView.setRefreshing(false);
                             }
-                        },3000);
+                        },1000);
 
                     }
                 }
@@ -200,7 +204,7 @@ public class ProjectListFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class ProjectRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<ProjectVO,ProjectRecyclerViewAdapter.ViewHolder> {
+    public class ProjectRecyclerViewAdapter extends RealmBasedRecyclerViewAdapter<ProjectVO,RealmViewHolder> {
 
         private AlertDialog alertDialog;
         private Realm mRealm = Realm.getDefaultInstance();
@@ -210,84 +214,139 @@ public class ProjectListFragment extends Fragment {
             super(context, realmResults, automaticUpdate, animateIdType, animateExtraColumnName);
         }
 
-        public class ViewHolder extends RealmViewHolder {
-            public TextView usrName,proName,participant,contents,hash1,hash2,hash3;
+        public class NormalViewHolder extends RealmViewHolder {
+
+            public TextView usrName,proName,participant,contents;
             public Button submit,contact,store;
             public ImageView usrPhoto,works;
-            public ViewHolder(View view) {
+            public LinearLayout hash;
+
+            public NormalViewHolder(View view) {
                 super(view);
                 usrName = (TextView) view.findViewById(R.id.usrname);
                 proName = (TextView) view.findViewById(R.id.proname);
                 participant = (TextView) view.findViewById(R.id.participant);
                 contents = (TextView) view.findViewById(R.id.contents);
-                hash1 = (TextView) view.findViewById(R.id.hash1);
-                hash2 = (TextView) view.findViewById(R.id.hash2);
-                hash3 = (TextView) view.findViewById(R.id.hash3);
                 submit = (Button) view.findViewById(R.id.submit);
                 contact = (Button) view.findViewById(R.id.contact);
                 store = (Button) view.findViewById(R.id.store);
 
                 usrPhoto = (ImageView) view.findViewById(R.id.usrPhoto);
                 works = (ImageView) view.findViewById(R.id.works);
+
+                hash = (LinearLayout)view.findViewById(R.id.hashlinear);
+            }
+        }
+
+        public class AnnounceViewHolder extends RealmViewHolder {
+            public TextView textView;
+            public MultiStateToggleButton mstb;
+            public AnnounceViewHolder (View view) {
+                super(view);
+                textView = (TextView) view.findViewById(R.id.announce);
+                mstb = (MultiStateToggleButton)view.findViewById(R.id.mstb_multi_id);
             }
         }
 
         @Override
-        public ViewHolder onCreateRealmViewHolder(ViewGroup viewGroup, int viewType) {
-            View v = inflater.inflate(R.layout.project_list, viewGroup, false);
-            return new ViewHolder(v);
+        public RealmViewHolder onCreateRealmViewHolder(ViewGroup viewGroup, int viewType) {
+
+            if (viewType == ITEM_TYPE_NORMAL) {
+                View v = inflater.inflate(R.layout.project_list, viewGroup, false);
+                return new NormalViewHolder(v);
+            }
+            else if (viewType == ITEM_TYPE_HEADER) {
+                View headerRow = inflater.inflate(R.layout.fragment_announcement,viewGroup,false);
+                return new AnnounceViewHolder(headerRow); // view holder for header items
+            }
+            else
+                return null;
         }
 
         @Override
-        public void onBindRealmViewHolder(ViewHolder holder, int position) {
+        public int getItemViewType(int position) {
+            if(position == 0 ) {
+                return ITEM_TYPE_HEADER;
+            }
+            else
+                return ITEM_TYPE_NORMAL;
+        }
 
-            String userName = realmResults.get(position).getLauncher();
-            Log.e("realm",realmResults.get(position).getLauncher());
-            String proName = realmResults.get(position).getProjectName();
-            int participants = realmResults.get(position).getApplicants();
-            String contents = realmResults.get(position).getContents();
-            final String userPhoto = realmResults.get(position).getId();
-            String wants = realmResults.get(position).getWants();
+        @Override
+        public int getItemCount() {
+            return realmResults.size()+1;
+        }
+        @Override
+        public void onBindRealmViewHolder(RealmViewHolder holder, int position) {
 
-            String URL = "https://graph.facebook.com/" + userPhoto +"/picture?type=large";
+            int itemType = getItemViewType(position);
 
-            holder.usrName.setText(userName);
-            holder.proName.setText(proName);
-            holder.participant.setText(String.valueOf(participants));
-            holder.contents.setText(contents);
-            Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(holder.usrPhoto);
+            if (itemType == ITEM_TYPE_NORMAL) {
 
-            //((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
-            holder.submit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog = new AlertDialog.Builder(NavigationDrawerActivity.contexts).create();
-                    View view = View.inflate(NavigationDrawerActivity.contexts,R.layout.dialog_apply,null);
-                    alertDialog.setView(view);
-                    view.findViewById(R.id.applybtn).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.dismiss();
-                        }
-                    });
+                int max = realmResults.size();
 
-                    view.findViewById(R.id.cancelbtn).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
-                }
-            });
-            holder.contact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String url ="https://www.facebook.com/messages/" + userPhoto ;
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
-                }
-            });
+                position = max  - position;
+
+                String userName = realmResults.get(position).getLauncher();
+                Log.e("realm",realmResults.get(position).getLauncher());
+                String proName = realmResults.get(position).getProjectName();
+                int participants = realmResults.get(position).getApplicants();
+                String contents = realmResults.get(position).getContents();
+                final String userPhoto = realmResults.get(position).getId();
+                String wants = realmResults.get(position).getWants();
+
+                String URL = "https://graph.facebook.com/" + userPhoto +"/picture?type=large";
+
+                NormalViewHolder holder1 = (NormalViewHolder)holder;
+                holder1.usrName.setText(userName);
+                holder1.proName.setText(proName);
+                holder1.participant.setText(String.valueOf(participants));
+                holder1.contents.setText(contents);
+                TextView textView = new TextView(UnaApplication.getContext());
+                textView.setText("#"+wants);
+                textView.setTextColor(getResources().getColor(R.color.texts));
+                textView.setBackgroundResource(R.color.back);
+                //textView.setPaddingRelative(20,10,20,10);
+                holder1.hash.addView(textView);
+                Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(holder1.usrPhoto);
+
+                //((StudentViewHolder) holder).tvItem.setText(singleItem.getItem());
+                holder1.submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog = new AlertDialog.Builder(NavigationDrawerActivity.contexts).create();
+                        View view = View.inflate(NavigationDrawerActivity.contexts,R.layout.dialog_apply,null);
+                        alertDialog.setView(view);
+                        view.findViewById(R.id.applybtn).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        view.findViewById(R.id.cancelbtn).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    }
+                });
+                holder1.contact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url ="https://www.facebook.com/messages/" + userPhoto ;
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    }
+                });
+            } else if (itemType == ITEM_TYPE_HEADER) {
+                ((AnnounceViewHolder)holder).textView.setText("공지");
+                ((AnnounceViewHolder)holder).mstb.setElements(R.array.planets_array,0);
+            }
+
+
         }
 
 

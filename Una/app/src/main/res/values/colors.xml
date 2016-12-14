@@ -13,4 +13,10 @@
 
     <color name="maincolor">#6AA1C9</color>
 
+    <color name="white">#FFFFFF</color>
+
+    <color name="back">#EFEFEF</color>
+
+    <color name="texts">#909090</color>
+
 </resources>

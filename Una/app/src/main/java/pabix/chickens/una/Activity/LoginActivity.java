@@ -1,5 +1,9 @@
 package pabix.chickens.una.Activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -54,12 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     private JSONObject Users;
     @BindView(R.id.fb_login_button)
     LoginButton loginButton;
-    @BindView(R.id.Textview)
-    TextView textView;
-    @BindView(R.id.imageView)
-    ImageView imageView;
-    @BindView(R.id.hi)
-    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        putBitmap(R.id.background, R.drawable.back, 8);
 
         callbackManager = CallbackManager.Factory.create(); // callbackManager 선언
         ButterKnife.bind(this);
@@ -125,12 +125,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getProject();
-            }
-        });
     }
 
 
@@ -256,6 +250,35 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recycleView(R.id.background);
+    }
+
+    private void putBitmap(int imageViewId, int drawableId, int scale) {
+        ImageView imageView = (ImageView)findViewById(imageViewId);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = scale;
+
+        imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), drawableId, options));
+    }
+
+    private void recycleView(int id) {
+        ImageView view = (ImageView)findViewById(id);
+
+        Drawable d = view.getDrawable();
+        if(d instanceof BitmapDrawable) {
+            Bitmap b = ((BitmapDrawable) d).getBitmap();
+            view.setImageBitmap(null);
+            b.recycle();
+            b = null;
+        }
+        d.setCallback(null);
+        System.gc();
+        Runtime.getRuntime().gc();
     }
 
 
