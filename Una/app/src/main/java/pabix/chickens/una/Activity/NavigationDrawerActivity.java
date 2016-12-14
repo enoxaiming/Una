@@ -23,7 +23,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +45,15 @@ import pabix.chickens.una.Fragments.MyPageFragment;
 import pabix.chickens.una.Fragments.ProjectLikedFragment;
 import pabix.chickens.una.Fragments.ProjectListFragment;
 import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.Management.UserManager;
 import pabix.chickens.una.R;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements  NavigationView.OnNavigationItemSelectedListener, ProjectListFragment.OnFragmentInteractionListener, CompetitionListFragment.OnFragmentInteractionListener, ProjectLikedFragment.OnFragmentInteractionListener,MyPageFragment.OnFragmentInteractionListener{
 
     private SearchView mSearchView;
+    private ImageView userImage;
+    private TextView userName,userIntroduce;
     private boolean searchViewOn = true;
     private Activity activity;
     private long backKeyPressedTime = 0;
@@ -92,6 +103,20 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+
+        userImage = (ImageView)view.findViewById(R.id.imageView);
+        userName = (TextView)view.findViewById(R.id.name);
+        userIntroduce = (TextView)view.findViewById(R.id.introduce);
+
+        String URL = "https://graph.facebook.com/" + UserManager.getInstance().getId() +"/picture?type=large";
+        Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(userImage);
+
+        userName.setText(UserManager.getInstance().getName());
+        userIntroduce.setText(UserManager.getInstance().getId());
+
+
+
 
         int[] icons = {R.drawable.tab_home,
                 R.drawable.tab_like,
@@ -288,6 +313,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        LoginManager.getInstance().logOut();
     }
 
 

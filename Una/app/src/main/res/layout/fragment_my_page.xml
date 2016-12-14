@@ -5,9 +5,19 @@
     tools:context="pabix.chickens.una.Fragments.MyPageFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:id="@+id/myphoto"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"/>
+
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -43,6 +43,7 @@ import pabix.chickens.una.HTTPConnection.getProjects;
 import pabix.chickens.una.HTTPConnection.insertDatas;
 import pabix.chickens.una.Management.URLManager;
 import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.Management.UserManager;
 import pabix.chickens.una.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     private Realm mRealm;
     private UserVO mUser;
     private JSONObject Users;
+    private String name;
+    private String id;
     @BindView(R.id.fb_login_button)
     LoginButton loginButton;
 
@@ -93,23 +96,34 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("TAG", "user: " + user.toString());
                             Log.i("TAG", "AccessToken: " + result.getAccessToken().getToken());
                             Log.i("ID", "ID : " + result.getAccessToken().getUserId());
+                            UserManager.getInstance().setId(result.getAccessToken().getUserId());
+                            try {
+                                Log.i("TAG", "name : " + user.get("name").toString());
+                                UserManager.getInstance().setName(user.get("name").toString());
+                                UserManager.getInstance().setEmail(user.get("email").toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             setResult(RESULT_OK);
+                            /*UserManager.getInstance().setId(result.getAccessToken().getUserId());
                             try {
                                 insertuserData(user.getString("Name"),result.getAccessToken().getToken());
+                                UserManager.getInstance().setName(user.get("name").toString());
+                                Log.e("name",user.getString("name"));
+                                UserManager.getInstance().setEmail(user.getString("email"));
                             } catch (JSONException e) {
                                 //TODO 이름확인
-                            }
+                            }*/
                         }
                     }
                 });
 
+                facebookIdCheck(result.getAccessToken().getUserId());
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender,birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
                 AccessToken.setCurrentAccessToken(result.getAccessToken());
-                startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
-                finish();
             }
 
             @Override
@@ -204,6 +218,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    //아이디 중복 체크
     private void facebookIdCheck(String id) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLManager.URL)
@@ -216,8 +232,15 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Successful>>() {
             @Override
             public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
-                if(!response.body().get(0).isSuccess()) {
 
+
+
+                if(response.body().get(0).isSuccess()) {
+                    startActivity(new Intent(LoginActivity.this,NavigationDrawerActivity.class));
+                    finish();
+                }
+                else {
+                    insert(UserManager.getInstance().getName(),UserManager.getInstance().getId(),"enoxaiming@naver.com","M",14,"해킹방어","안드로이드 개발","","");
                 }
             }
 
@@ -229,6 +252,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //가입부분
     private void insert(String name,String id,String email,String gender,int kisu,String major,String main,String message,String joined) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLManager.URL)
@@ -242,12 +266,21 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Successful>>() {
             @Override
             public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
+                Log.e("a","a");
+                Log.e("response",response.body().toString());
 
+                /*if(response.body().get(0).isSuccess()) {
+                    startActivity(new Intent(LoginActivity.this,NavigationDrawerActivity.class));
+                    finish();
+                }
+                else {
+                    Log.e("fail","fail");
+                }*/
             }
 
             @Override
             public void onFailure(Call<List<Successful>> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }

@@ -74,9 +74,10 @@ public class ProjectAddActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            endDate = year+"-"+monthOfYear+"-"+dayOfMonth;
+            int month = monthOfYear + 1;
+            endDate = year+"-"+month+"-"+dayOfMonth;
             Toast.makeText(getApplicationContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
-            textView.setText(year + "년" + monthOfYear + "월" + dayOfMonth +"일");
+            textView.setText(year + "년" + month + "월" + dayOfMonth +"일");
         }
     };
 
@@ -88,14 +89,29 @@ public class ProjectAddActivity extends AppCompatActivity {
 
         final AddProject doSignup = retrofit.create(AddProject.class);
 
+        int month = calendar.get(Calendar.MONTH);
+        month += 1;
+
+        Log.e("id",UserManager.getInstance().getId());
+        Log.e("pjname",projectName.getText().toString());
+        Log.e("name",UserManager.getInstance().getName());
+        Log.e("content",content.getText().toString());
+
+
         Call<List<Successful>> call = doSignup.doSignup(
-                UserManager.getInstance().getId(),projectName.getText().toString(),UserManager.getInstance().getName(),content.getText().toString(),calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DATE),endDate,1,3,tag.getText().toString());
+                UserManager.getInstance().getId(),projectName.getText().toString(),UserManager.getInstance().getName(),content.getText().toString(),calendar.get(Calendar.YEAR)+"-"+month+"-"+calendar.get(Calendar.DATE),endDate,1,3,tag.getText().toString());
 
         call.enqueue(new Callback<List<Successful>>() {
             @Override
             public void onResponse(Call<List<Successful>> call, Response<List<Successful>> response) {
-                Toast.makeText(getApplicationContext(), "신청되었습니다.", Toast.LENGTH_SHORT).show();
-                finish();
+                if(response.body().get(0).isSuccess()) {
+                    Toast.makeText(getApplicationContext(), "신청되었습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "오류가 발생하였습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
 
             @Override

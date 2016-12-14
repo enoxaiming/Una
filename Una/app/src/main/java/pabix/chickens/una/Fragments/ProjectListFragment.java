@@ -274,6 +274,7 @@ public class ProjectListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+
             return realmResults.size()+1;
         }
         @Override

@@ -1,14 +1,22 @@
 package pabix.chickens.una.Fragments;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
+import pabix.chickens.una.Management.UnaApplication;
+import pabix.chickens.una.Management.UserManager;
 import pabix.chickens.una.R;
+
+import static pabix.chickens.una.Management.URLManager.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +69,11 @@ public class MyPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_page, container, false);
+        ImageView imageView = (ImageView) view.findViewById(R.id.myphoto);
+        String URL = "https://graph.facebook.com/" + UserManager.getInstance().getId() +"/picture?type=large";
+        Glide.with(UnaApplication.getContext()).load(URL).skipMemoryCache(true).into(imageView);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

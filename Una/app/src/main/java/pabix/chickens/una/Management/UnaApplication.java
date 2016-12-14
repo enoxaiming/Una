@@ -9,6 +9,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONObject;
 
@@ -33,22 +34,7 @@ public class UnaApplication extends Application {
         FacebookSdk.sdkInitialize(this);
         AppEventsLogger.activateApp(this);
         context = this;
-        if (AccessToken.getCurrentAccessToken() != null) {
-            GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-
-                @Override
-                public void onCompleted(JSONObject user, GraphResponse response) {
-                    if (response.getError() != null) {
-
-                    } else {
-                        //TODO JSON OBJECT 생성해서 UserManager에 넣기
-                        Log.i("TAG", "user: " + user.toString());
-                        Log.i("TAG", "AccessToken: " + AccessToken.getCurrentAccessToken().getToken());
-                        Log.i("ID", "ID : " + AccessToken.getCurrentAccessToken().getUserId());
-                    }
-                }
-            });
-        }
+        LoginManager.getInstance().logOut();
     }
 
     public static Context getContext() {
